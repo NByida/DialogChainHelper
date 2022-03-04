@@ -4,9 +4,14 @@ import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.PopupWindow
 import android.widget.TextView
 import com.yida.DialogChainLib.DialogChainHelper
+import com.yida.DialogChainLib.ShowDialogConfig
 import com.yida.dialogchainhelper.dialogfragment.DialogFragment1
 import com.yida.dialogchainhelper.dialogfragment.DialogFragment3
 import com.yida.dialogchainhelper.dialogfragment.DialogFragment5
@@ -19,10 +24,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mockData()
-        dialogChainHelper = DialogChainHelper()
+        dialogChainHelper = DialogChainHelper(this)
         findViewById<TextView>(R.id.layText).setOnClickListener {
-            showDialog()
+            testNewApi()
         }
     }
 
@@ -31,30 +35,77 @@ class MainActivity : AppCompatActivity() {
         dialogChainHelper.unRegister()
     }
 
-    fun showDialog() {
-        dialogChainHelper.addDialog2Chain(dialogFragment1, { dialogFragment1.show(supportFragmentManager, "dialogFragment1") }, 1, supportFragmentManager)
-        dialogChainHelper.addDialog2Chain(dialog2, 2)
-        dialogChainHelper.addDialog2Chain(dialog4, 4)
-        Handler().postDelayed({
-            dialogChainHelper.addDialog2Chain(dialogFragment5, { dialogFragment5.show(supportFragmentManager, "dialogFragment5") }, 5, supportFragmentManager)
-        },1000)
-        dialogChainHelper.addDialog2Chain(dialogFragment3, { dialogFragment3.show(supportFragmentManager, "dialogFragment3") }, 3, supportFragmentManager)
-        dialogChainHelper.addDialog2Chain(dialog6, 6)
-    }
+
+    fun testNewApi(){
+        dialogChainHelper.addDialogFragment {
+            level=1
+            showDialogFragment={
+                val dialogFragment=DialogFragment1()
+                dialogFragment.show(supportFragmentManager,"1")
+                dialogFragment
+            }
+        }
+
+        dialogChainHelper.addDialogFragment {
+            level=3
+            showDialogFragment={
+                val dialogFragment=DialogFragment3()
+                dialogFragment.show(supportFragmentManager,"3")
+                dialogFragment
+            }
+        }
+
+        dialogChainHelper.addPopWindow {
+            level=2
+            showPopWindow={
+                val imageView=ImageView(this@MainActivity)
+                imageView.layoutParams=ViewGroup.LayoutParams(200,200)
+                imageView.setImageResource(R.drawable.ic_launcher_background)
+                val pop=PopupWindow(imageView)
+                pop.width=300
+                pop.height=300
+                val view =findViewById<TextView>(R.id.layText)
+                pop.isOutsideTouchable = true;
+                pop.showAsDropDown( view)
+                pop
+            }
+        }
 
 
-    lateinit var dialog4: Dialog
-    lateinit var dialog2: Dialog
-    lateinit var dialog6: Dialog
+        dialogChainHelper.addDialogFragment {
+            level=5
+            showDialogFragment={
+                val dialogFragment=DialogFragment5()
+                dialogFragment.show(supportFragmentManager,"5")
+                dialogFragment
+            }
+        }
+        dialogChainHelper.addDialog {
+            level=7
+            showDialog={
+                 val dialog=mockDialog(7)
+                dialog.show()
+                dialog
+            }
+        }
+        dialogChainHelper.addDialog {
+            showDialog={
+                val dialog=mockDialog(4)
+                dialog.show()
+                dialog
+            }
 
-    var dialogFragment1 = DialogFragment1()
-    var dialogFragment3 = DialogFragment3()
-    var dialogFragment5 = DialogFragment5()
+            level=4
 
-    private fun mockData() {
-        dialog4 = mockDialog(4)
-        dialog2 = mockDialog(2)
-        dialog6 = mockDialog(6)
+        }
+        dialogChainHelper.addDialog {
+            level=6
+            showDialog={
+                var dialog=mockDialog(6)
+                dialog.show()
+                dialog
+            }
+        }
     }
 
 

@@ -23,8 +23,8 @@ public class DialogFragment3 extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         TextView textView = new TextView(getContext());
-        textView.setWidth(1000);
-        textView.setHeight(1000);
+        textView.setWidth(300);
+        textView.setHeight(300);
         textView.setGravity(Gravity.CENTER);
         textView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.white));
         textView.setTextColor( ContextCompat.getColor(getContext(), R.color.black));

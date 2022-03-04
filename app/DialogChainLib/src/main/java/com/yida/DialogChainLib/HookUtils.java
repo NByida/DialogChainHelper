@@ -15,7 +15,7 @@ public class HookUtils {
             Method dMethod = Class.class.getDeclaredMethod("getDeclaredMethod", String.class, Class[].class);
             return (Method) dMethod.invoke(cls, name, parameterTypes);
         } catch (Exception e) {
-            Log.e("HookUtils", e.getMessage());
+            Log.e("HookUtils", "HookUtils "+name+"FAILED");
         }
         return null;
     }
@@ -28,7 +28,8 @@ public class HookUtils {
             Method dMethod = Class.class.getDeclaredMethod("getDeclaredField", String.class);
             return (Field) dMethod.invoke(cls, name);
         } catch (Exception e) {
-            Log.e("HookUtils", e.getMessage());
+            Log.e("HookUtils", "HookUtils "+name+"FAILED");
+
         }
         return null;
     }
@@ -42,7 +43,8 @@ public class HookUtils {
             field.setAccessible(true);
             return obj == null ? dMethod.invoke(field, obj) : dMethod.invoke(field, obj);
         } catch (Exception e) {
-            Log.e("HookUtils", e.getMessage());
+            Log.e("HookUtils", "HookUtils "+"FAILED");
+
         }
         return null;
     }
@@ -56,7 +58,8 @@ public class HookUtils {
             field.setAccessible(true);
             dMethod.invoke(field, obj, value);
         } catch (Exception e) {
-            Log.e("HookUtils", e.getMessage());
+            Log.e("HookUtils", "HookUtils "+"FAILED");
+
         }
     }
 }
