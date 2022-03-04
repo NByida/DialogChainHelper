@@ -5,15 +5,6 @@
 
 
 
-demo代码,队列展示6个dialog
-```
-        dialogChainHelper.addDialog2Chain(dialogFragment1, { dialogFragment1.show(supportFragmentManager, "dialogFragment1") }, 1, supportFragmentManager)
-        dialogChainHelper.addDialog2Chain(dialog2, 2)
-        dialogChainHelper.addDialog2Chain(dialog4, 4)
-        dialogChainHelper.addDialog2Chain(dialogFragment5, { dialogFragment5.show(supportFragmentManager, "dialogFragment5") }, 5, supportFragmentManager)
-        dialogChainHelper.addDialog2Chain(dialogFragment3, { dialogFragment3.show(supportFragmentManager, "dialogFragment3") }, 3, supportFragmentManager)
-        dialogChainHelper.addDialog2Chain(dialog6, 6)
-```
 ---
 
 
@@ -31,16 +22,11 @@ demo代码,队列展示6个dialog
 
 - 添加依赖
 ```
-allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
-	}
+allprojects {repositories {...
+		maven { url 'https://jitpack.io' }
+}}
 	
-dependencies {
-	        implementation 'com.github.NByida:DialogChainHelper:Tag'
-	}	
+dependencies { implementation 'com.github.NByida:DialogChainHelper:V2.0'}	
 	
 ```
 
